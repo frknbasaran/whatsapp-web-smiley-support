@@ -1,7 +1,6 @@
 {
   "name" : "whatsapp web client smiley support",
   "author":   "Furkan BAŞARAN",
-  "developer": "Furkan BAŞARAN",
   "short_name": "whatsapp smiley",
   "description" : "convert keyboard shortcuts as whatsapp smiley",
   "version" : "0.9.3",
