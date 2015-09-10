@@ -31,41 +31,42 @@ $(document).ready(function () {
         return this;
     }
 
-    $('body').on('keyup', '#compose-input > div', function(e) {
-        
-        var message = $('#compose-input > div').html();
+    $('body').on('keydown', '#main footer .block-compose .input-container .input', function(e) {
 
+        var messageoud = $('#main footer .block-compose .input-container .input').html();
+        var message = $('#main footer .block-compose .input-container .input').html();
+        
         var regex = /\:d/ig;
-        message = message.replace(regex, '<img alt="😄" class="emoji emojie415" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😄" draggable="false" class="emoji emojiordered1157" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\:\)/ig;
-        message = message.replace(regex, '<img alt="😊" class="emoji emojie056" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="☺" draggable="false" class="emoji emojiordered0055" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\;\)/ig;
-        message = message.replace(regex, '<img alt="😉" class="emoji emojie405" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😉" draggable="false" class="emoji emojiordered1162" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\<3/ig;
-        message = message.replace(regex, '<img alt="😍" class="emoji emojie106" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😍" draggable="false" class="emoji emojiordered1166" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\:p/ig;
-        message = message.replace(regex, '<img alt="😛" class="emoji emoji1f61b" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😛" draggable="false" class="emoji emojiordered1180" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\*\-p/ig;
-        message = message.replace(regex, '<img alt="😜" class="emoji emojie105" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😜" draggable="false" class="emoji emojiordered1181" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\:\(/ig;
-        message = message.replace(regex, '<img alt="😞" class="emoji emojie058" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😔" draggable="false" class="emoji emojiordered1173" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /x\(/ig;
-        message = message.replace(regex, '<img alt="😣" class="emoji emojie406" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😣" draggable="false" class="emoji emojiordered1188" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\:\'\(/ig;
-        message = message.replace(regex, '<img alt="😢" class="emoji emojie413" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😢" draggable="false" class="emoji emojiordered1187" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\:\O/ig;
-        message = message.replace(regex, '<img alt="😮" class="emoji emoji1f62e" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😮" draggable="false" class="emoji emojiordered1199" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /B\|/ig;
-        message = message.replace(regex, '<img alt="😎" class="emoji emoji1f60e" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😎" draggable="false" class="emoji emojiordered1167" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /O\-\)/ig;
-        message = message.replace(regex, '<img alt="😇" class="emoji emoji1f607" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="😇" draggable="false" class="emoji emojiordered1160" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
         regex = /\:bok/ig;
-        message = message.replace(regex, '<img alt="💩" class="emoji emojie05a" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
+        message = message.replace(regex, '<img alt="💩" class="emoji emojie05a" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">" "');
         
-        $('#compose-input > div').html(message);
-
-        $('#compose-input > div').focusEnd();
-                  
+        if (message!=messageoud){
+		$('#main footer .block-compose .input-container .input').html(message);
+	    $('#main footer .block-compose .input-container .input').focusEnd();
+        }
     });
 
 });
