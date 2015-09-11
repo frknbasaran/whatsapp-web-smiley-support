@@ -1,0 +1,17 @@
+{
+  ":)":                     {"alt": "😊", "class": "emoji emojiordered1163"},
+  ";)":                     {"alt": "😉", "class": "emoji emojiordered1162"},
+  ":*":                     {"alt": "😘", "class": "emoji emojiordered1177"},
+  ":D":                     {"alt": "😀", "class": "emoji emojiordered1153"},
+  "=D":                     {"alt": "😃", "class": "emoji emojiordered1156"},
+  "^^":                     {"alt": "😄", "class": "emoji emojiordered1157"},
+  "&lt;3":                  {"alt": "❤", "class": "emoji emojiordered0129"},
+  "&lt;/3":                 {"alt": "💔", "class": "emoji emojiordered0947"},
+  ":P":                     {"alt": "😛", "class": "emoji emojiordered1180"},
+  ":(":                     {"alt": "😔", "class": "emoji emojiordered1173"},
+  "X(":                     {"alt": "😣", "class": "emoji emojiordered1196"},
+  ":'(":                    {"alt": "😢", "class": "emoji emojiordered1190"},
+  ":O":                     {"alt": "😮", "class": "emoji emojiordered1199"},
+  "8)":                     {"alt": "😎", "class": "emoji emojiordered1167"},
+  "O-)":                    {"alt": "😇", "class": "emoji emojiordered1160"}
+}

@@ -1,0 +1,70 @@
+.wawss-autocomplete-wrapper {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  min-width: 600px;
+}
+
+.wawss-autocomplete-list {
+  display: block;
+  margin: 0;
+  overflow: auto;
+  padding: 10px;
+  position: absolute;
+  bottom: 60px;
+  left: 38%;
+  right: 0;
+  background-color: #fff;
+  max-height: 30%;
+  z-index: 999;
+}
+
+@media screen and (max-width: 1199px) and (min-width: 1024px) {
+  .wawss-autocomplete-list {
+    left: 30%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .wawss-autocomplete-wrapper {
+    top: 19px;
+    bottom: 19px;
+    left: 50%;
+    margin-left: -559px;
+    width: 1118px;
+  }
+  .wawss-autocomplete-list {
+    left: 359px;
+  }
+}
+
+@media screen and (min-width: 1320px) {
+  .wawss-autocomplete-wrapper {
+    margin-left: -606px;
+    width: 1212px;
+  }
+  .wawss-autocomplete-list {
+    left: 388px;
+  }
+}
+
+.wawss-autocomplete-wrapper li {
+  display: inline-block;
+  padding: 5px 10px;
+}
+
+.wawss-autocomplete-wrapper .wawss-autocomplete-selected {
+  border-radius: 13px;
+  background-color: #DCF8C6;
+}
+
+.wawss-autocomplete-wrapper strong {
+  font-weight: bold;
+}
+
+.wawss-hidden {
+  display: none;
+}

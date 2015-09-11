@@ -1,72 +1,255 @@
-/*
-  author : Eray Arslan
-  for : Furkan Başaran <3
- */
-var ea;
-$(document).ready(function () {
+// Benjamin K's Page
+// Thank you Benjamin!
+(function(){
 
-    $.fn.focusEnd = function() {
-        
-        $(this).focus();
-        
-        var tmp = $('<span />').appendTo($(this)),
-            node = tmp.get(0),
-            range = null,
-            sel = null;
-
-        if (document.selection) {
-            range = document.body.createTextRange();
-            range.moveToElementText(node);
-            range.select();
-        } else if (window.getSelection) {
-            range = document.createRange();
-            range.selectNode(node);
-            sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-
-        tmp.remove();
-        
-        return this;
+  var config = {
+    icons: {},
+    shortIcons: {},
+    additionalAttributes: {
+      draggable: false,
+      src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
     }
+  };
 
-    $('body').on('keydown', '#main footer .block-compose .input-container .input', function(e) {
-
-        var messageoud = $('#main footer .block-compose .input-container .input').html();
-        var message = $('#main footer .block-compose .input-container .input').html();
-        
-        var regex = /\:d/ig;
-        message = message.replace(regex, '<img alt="😄" draggable="false" class="emoji emojiordered1157" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\:\)/ig;
-        message = message.replace(regex, '<img alt="☺" draggable="false" class="emoji emojiordered0055" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\;\)/ig;
-        message = message.replace(regex, '<img alt="😉" draggable="false" class="emoji emojiordered1162" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\<3/ig;
-        message = message.replace(regex, '<img alt="😍" draggable="false" class="emoji emojiordered1166" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\:p/ig;
-        message = message.replace(regex, '<img alt="😛" draggable="false" class="emoji emojiordered1180" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\*\-p/ig;
-        message = message.replace(regex, '<img alt="😜" draggable="false" class="emoji emojiordered1181" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\:\(/ig;
-        message = message.replace(regex, '<img alt="😔" draggable="false" class="emoji emojiordered1173" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /x\(/ig;
-        message = message.replace(regex, '<img alt="😣" draggable="false" class="emoji emojiordered1188" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\:\'\(/ig;
-        message = message.replace(regex, '<img alt="😢" draggable="false" class="emoji emojiordered1187" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\:\O/ig;
-        message = message.replace(regex, '<img alt="😮" draggable="false" class="emoji emojiordered1199" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /B\|/ig;
-        message = message.replace(regex, '<img alt="😎" draggable="false" class="emoji emojiordered1167" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /O\-\)/ig;
-        message = message.replace(regex, '<img alt="😇" draggable="false" class="emoji emojiordered1160" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">');
-        regex = /\:bok/ig;
-        message = message.replace(regex, '<img alt="💩" class="emoji emojie05a" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">" "');
-        
-        if (message!=messageoud){
-		$('#main footer .block-compose .input-container .input').html(message);
-	    $('#main footer .block-compose .input-container .input').focusEnd();
+  var helpers = {
+    loadConfig: function(type) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          config[type] = helpers.sortObject(JSON.parse(xhr.response));
         }
-    });
+      };
+      xhr.open("GET", chrome.extension.getURL('/config/'+type+'.json'), true);
+      xhr.send();
+    },
 
-});
+    sortObject: function(object) {
+      var sortedObject = {},
+          keysSorted;
+      keysSorted = Object.keys(object).sort(function(a,b){
+        if (a < b) return -1;
+        if (b < a) return 1;
+        return 0;
+      });
+      for (var i=0; i<keysSorted.length; i++) {
+        sortedObject[keysSorted[i]] = object[keysSorted[i]];
+      }
+      return sortedObject;
+    },
+
+    replaceSmiley: function(node, iconClass, start, end) {
+      var smileyPannelIsOpen = document.querySelector('.icon-hide') !== null,
+          pannels = [
+            '.icon-emoji-people',
+            '.icon-emoji-nature',
+            '.icon-emoji-things',
+            '.icon-emoji-places',
+            '.icon-emoji-symbols'
+          ],
+          smileyInPannel;
+      iconClass = iconClass.split(' ')[1];
+
+      helpers.range = helpers.selection.getRangeAt(0);
+      helpers.range.setStart(node, start);
+      helpers.range.setEnd(node, end);
+      helpers.range.deleteContents();
+      helpers.selection.removeAllRanges();
+      helpers.selection.addRange(helpers.range);
+
+      if (!smileyPannelIsOpen) {
+        document.querySelector('.icon-smiley').click();
+        document.querySelector('.emoji-panel').style.display = 'none';
+      }
+      for (var i=0; i<pannels.length; i++) {
+        document.querySelector(pannels[i]).click();
+        smileyInPannel = document.querySelector('.emoji-panel-body .' + iconClass);
+        if (smileyInPannel !== null) {
+          smileyInPannel.click();
+          break;
+        }
+      }
+      if (!smileyPannelIsOpen) {
+        document.querySelector('.icon-hide').click();
+        setTimeout(function() {
+          document.querySelector('.emoji-panel').style.display = '';
+        }, 600);
+      }
+    },
+
+    filterIcons: function(smileyStart) {
+      var icons = {};
+      if (config.icons[smileyStart] !== undefined) {
+        icons[smileyStart] = config.icons[smileyStart];
+        return icons;
+      }
+      for (var smiley in config.icons) {
+        if (smiley.indexOf(smileyStart) === 0) {
+          icons[smiley] = config.icons[smiley];
+        } else if (smiley > smileyStart) {
+          break;
+        }
+      }
+      return icons;
+    },
+
+    buildSmileyList: function(icons, smileyStart) {
+      var smileyList = '',
+          isFirst = true;
+      for (var smiley in icons) {
+        smileyList += '<li' + (isFirst ? ' class="wawss-autocomplete-selected"' : '') + '>';
+        smileyList += '<img src="' + config.additionalAttributes.src + '" draggable="' + (config.additionalAttributes.draggable ? 'true' : 'false') + '" class="' + icons[smiley]['class'] + '" alt="' + icons[smiley].alt + '"> ';
+        if (smileyStart) {
+          smileyList += '<strong>' + smileyStart + '</strong>' + smiley.substr(smileyStart.length);
+        } else {
+          smileyList += smiley;
+        }
+        isFirst = false;
+      }
+      return smileyList;
+    },
+
+    initAutocomplete: function() {
+      helpers.autocomplete.classList.add('wawss-autocomplete-list');
+      helpers.autocomplete.classList.add('wawss-hidden');
+      var autocompleteWrapper = document.createElement('div');
+      autocompleteWrapper.classList.add('wawss-autocomplete-wrapper');
+      autocompleteWrapper.appendChild(helpers.autocomplete);
+      document.body.appendChild(autocompleteWrapper);
+    },
+
+    isAutocompleteVisible: function() {
+      return !helpers.autocomplete.classList.contains('wawss-hidden');
+    },
+
+    selectPreviousListitem: function() {
+      var selected = document.querySelector('.wawss-autocomplete-selected'),
+          newSelected, offset;
+      if (selected !== null) {
+        selected.classList.remove('wawss-autocomplete-selected');
+        if (selected === helpers.autocomplete.firstChild) {
+          newSelected = helpers.autocomplete.lastChild;
+          helpers.autocomplete.scrollTop = newSelected.offsetTop + newSelected.offsetHeight + 20;
+        } else {
+          newSelected = selected.previousElementSibling;
+          offset = newSelected.offsetTop - helpers.autocomplete.scrollTop;
+          if (offset < 0) {
+            helpers.autocomplete.scrollTop = helpers.autocomplete.scrollTop + offset - 50;
+          }
+        }
+        newSelected.classList.add('wawss-autocomplete-selected');
+      }
+    },
+
+    selectNextListitem: function() {
+      var selected = document.querySelector('.wawss-autocomplete-selected'),
+          newSelected, offset;
+      if (selected !== null) {
+        selected.classList.remove('wawss-autocomplete-selected');
+        if (selected === helpers.autocomplete.lastChild) {
+          newSelected = helpers.autocomplete.firstChild;
+          helpers.autocomplete.scrollTop = 0;
+        } else {
+          newSelected = selected.nextElementSibling;
+          offset = newSelected.offsetTop + newSelected.offsetHeight - helpers.autocomplete.scrollTop - helpers.autocomplete.offsetHeight;
+          if (offset > 0) {
+            helpers.autocomplete.scrollTop = helpers.autocomplete.scrollTop + offset + 50;
+          }
+        }
+        newSelected.classList.add('wawss-autocomplete-selected');
+      }
+    },
+
+    insertIcon: function() {
+      var selected = document.querySelector('.wawss-autocomplete-selected');
+      if (selected !== null) {
+        var enteredText = selected.querySelector('strong').innerText,
+            end = helpers.selection.anchorOffset,
+            start = end - enteredText.length;
+        helpers.replaceSmiley(helpers.selection.anchorNode, selected.firstChild.className, start, end);
+      }
+      helpers.autocomplete.classList.add('wawss-hidden');
+    },
+
+    selection: window.getSelection(),
+    range: null,
+    autocomplete: document.createElement('ul'),
+
+    checkSmileys: true
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (helpers.isAutocompleteVisible()) {
+      if (e.which === 13) {
+        e.preventDefault();
+        e.stopPropagation();
+        helpers.insertIcon();
+        helpers.checkSmileys = false;
+      } else if (e.which === 37 || e.which === 38 || (e.which === 9 && e.shiftKey === true)) {
+        e.preventDefault();
+        helpers.selectPreviousListitem();
+        helpers.checkSmileys = false;
+      } else if (e.which === 39 || e.which === 40 || (e.which === 9 && e.shiftKey === false)) {
+        e.preventDefault();
+        helpers.selectNextListitem();
+        helpers.checkSmileys = false;
+      }
+    }
+  });
+
+  document.addEventListener('keyup', function(e) {
+    if (e.target.isContentEditable && helpers.selection.anchorNode.nodeType === 3 &&
+      e.which !== 9 && e.which !== 16 && helpers.checkSmileys) {
+      var message = helpers.selection.anchorNode.nodeValue,
+          position = helpers.selection.anchorOffset,
+          messagePart = message.substr(0, helpers.selection.anchorOffset - 1),
+          smileyOffset = messagePart.lastIndexOf(':'),
+          listHeightBefore = helpers.autocomplete.offsetHeight,
+          paneBody = document.querySelector('.pane-body.pane-chat-body'),
+          icons = {};
+
+      for (var smiley in config.shortIcons) {
+        if (position - smiley.length > -1 &&
+          message.substr(position - smiley.length, smiley.length) === smiley) {
+          helpers.replaceSmiley(helpers.selection.anchorNode, config.shortIcons[smiley]['class'], position - smiley.length, position);
+          paneBody.style.paddingBottom = '';
+          helpers.autocomplete.classList.add('wawss-hidden');
+          return;
+        }
+      }
+
+      if (smileyOffset > -1) {
+        var smileyStart = messagePart.substr(smileyOffset) + message.substr(helpers.selection.anchorOffset - 1, 1);
+        icons = helpers.filterIcons(smileyStart);
+        if (icons.hasOwnProperty(smileyStart)) {
+          helpers.replaceSmiley(helpers.selection.anchorNode, config.icons[smileyStart]['class'], smileyOffset, smileyOffset + smileyStart.length);
+        } else {
+          var listItems = helpers.buildSmileyList(icons, smileyStart);
+          if (listItems.length > 0) {
+            helpers.autocomplete.innerHTML = listItems;
+            helpers.autocomplete.classList.remove('wawss-hidden');
+            var listHeight = helpers.autocomplete.offsetHeight;
+            paneBody.style.paddingBottom = 8 + listHeight + 'px';
+            if (listHeightBefore < listHeight) {
+              paneBody.scrollTop = paneBody.scrollTop  + listHeight - listHeightBefore;
+            }
+            return;
+          }
+        }
+      }
+      paneBody.style.paddingBottom = '';
+      helpers.autocomplete.classList.add('wawss-hidden');
+    }
+    helpers.checkSmileys = true;
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.isContentEditable) {
+      document.querySelector('.pane-body.pane-chat-body').style.paddingBottom = '';
+      helpers.autocomplete.classList.add('wawss-hidden');
+    }
+  });
+
+  helpers.loadConfig('icons');
+  helpers.loadConfig('shortIcons');
+  helpers.initAutocomplete();
+})();
