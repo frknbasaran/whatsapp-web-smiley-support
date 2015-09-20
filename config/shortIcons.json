@@ -13,5 +13,7 @@
   ":'(":                    {"alt": "😢", "class": "emoji emojiordered1190"},
   ":O":                     {"alt": "😮", "class": "emoji emojiordered1199"},
   "8)":                     {"alt": "😎", "class": "emoji emojiordered1167"},
-  "O-)":                    {"alt": "😇", "class": "emoji emojiordered1160"}
+  "O-)":                    {"alt": "😇", "class": "emoji emojiordered1160"},
+  "xD":                     {"alt": "😂", "class": "emoji emojiordered1155"},
+  "(y)":                    {"alt": "👍", "class": "emoji emojiordered0733"}
 }
