@@ -18,5 +18,6 @@
   "(y)":                    {"alt": "👍", "class": "emoji emojiordered0733"},
   "¬¬":                     {"alt": "😒", "class": "emoji emojiordered1171"},
   ":$":                     {"alt": "😳", "class": "emoji emojiordered1204"},
-  ":@":                     {"alt": "😡", "class":"emoji emojiordered1186"}
+  ":@":                     {"alt": "😡", "class":"emoji emojiordered1186"},
+  ":o":                     {"alt": "😮", "class":"emoji emojiordered1199"}
 }
