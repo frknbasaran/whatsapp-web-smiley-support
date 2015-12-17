@@ -1,14 +1,9 @@
-// Benjamin K's Page
 // Thank you Benjamin!
 (function(){
 
   var config = {
     icons: {},
-    shortIcons: {},
-    additionalAttributes: {
-      draggable: false,
-      src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-    }
+    shortIcons: {}
   };
 
   var helpers = {
@@ -37,43 +32,18 @@
       return sortedObject;
     },
 
-    replaceSmiley: function(node, iconClass, start, end) {
-      var smileyPannelIsOpen = document.querySelector('.icon-hide') !== null,
-          pannels = [
-            '.icon-emoji-people',
-            '.icon-emoji-nature',
-            '.icon-emoji-things',
-            '.icon-emoji-places',
-            '.icon-emoji-symbols'
-          ],
-          smileyInPannel;
-      iconClass = iconClass.split(' ')[1];
+    replaceSmiley: function(node, text, start, end) {
+      var smiley = document.createTextNode(text);
 
       helpers.range = helpers.selection.getRangeAt(0);
       helpers.range.setStart(node, start);
       helpers.range.setEnd(node, end);
       helpers.range.deleteContents();
+      helpers.range.insertNode(smiley);
+      helpers.range.setStartAfter(smiley);
+      helpers.range.setEndAfter(smiley);
       helpers.selection.removeAllRanges();
       helpers.selection.addRange(helpers.range);
-
-      if (!smileyPannelIsOpen) {
-        document.querySelector('.icon-smiley').click();
-        document.querySelector('.emoji-panel').style.display = 'none';
-      }
-      for (var i=0; i<pannels.length; i++) {
-        document.querySelector(pannels[i]).click();
-        smileyInPannel = document.querySelector('.emoji-panel-body .' + iconClass);
-        if (smileyInPannel !== null) {
-          smileyInPannel.click();
-          break;
-        }
-      }
-      if (!smileyPannelIsOpen) {
-        document.querySelector('.icon-hide').click();
-        setTimeout(function() {
-          document.querySelector('.emoji-panel').style.display = '';
-        }, 600);
-      }
     },
 
     filterIcons: function(smileyStart) {
@@ -97,7 +67,7 @@
           isFirst = true;
       for (var smiley in icons) {
         smileyList += '<li' + (isFirst ? ' class="wawss-autocomplete-selected"' : '') + '>';
-        smileyList += '<img src="' + config.additionalAttributes.src + '" draggable="' + (config.additionalAttributes.draggable ? 'true' : 'false') + '" class="' + icons[smiley]['class'] + '" alt="' + icons[smiley].alt + '"> ';
+        smileyList += '<span style="margin-right: 5px">' + icons[smiley].alt + '</span> ';
         if (smileyStart) {
           smileyList += '<strong>' + smileyStart + '</strong>' + smiley.substr(smileyStart.length);
         } else {
@@ -165,8 +135,9 @@
         var enteredText = selected.querySelector('strong').innerText,
             end = helpers.selection.anchorOffset,
             start = end - enteredText.length;
-        helpers.replaceSmiley(helpers.selection.anchorNode, selected.firstChild.className, start, end);
+        helpers.replaceSmiley(helpers.selection.anchorNode, selected.firstChild.innerHTML, start, end);
       }
+      document.querySelector('.pane-chat-msgs.pane-chat-body').style.paddingBottom = '';
       helpers.autocomplete.classList.add('wawss-hidden');
     },
 
@@ -204,13 +175,13 @@
           messagePart = message.substr(0, helpers.selection.anchorOffset - 1),
           smileyOffset = messagePart.lastIndexOf(':'),
           listHeightBefore = helpers.autocomplete.offsetHeight,
-          paneBody = document.querySelector('.pane-body.pane-chat-body'),
+          paneBody = document.querySelector('.pane-chat-msgs.pane-chat-body'),
           icons = {};
 
       for (var smiley in config.shortIcons) {
         if (position - smiley.length > -1 &&
           message.substr(position - smiley.length, smiley.length) === smiley) {
-          helpers.replaceSmiley(helpers.selection.anchorNode, config.shortIcons[smiley]['class'], position - smiley.length, position);
+          helpers.replaceSmiley(helpers.selection.anchorNode, config.shortIcons[smiley]['alt'], position - smiley.length, position);
           paneBody.style.paddingBottom = '';
           helpers.autocomplete.classList.add('wawss-hidden');
           return;
@@ -221,7 +192,7 @@
         var smileyStart = messagePart.substr(smileyOffset) + message.substr(helpers.selection.anchorOffset - 1, 1);
         icons = helpers.filterIcons(smileyStart);
         if (icons.hasOwnProperty(smileyStart)) {
-          helpers.replaceSmiley(helpers.selection.anchorNode, config.icons[smileyStart]['class'], smileyOffset, smileyOffset + smileyStart.length);
+          helpers.replaceSmiley(helpers.selection.anchorNode, config.icons[smileyStart]['alt'], smileyOffset, smileyOffset + smileyStart.length);
         } else {
           var listItems = helpers.buildSmileyList(icons, smileyStart);
           if (listItems.length > 0) {
@@ -244,7 +215,7 @@
 
   document.addEventListener('click', function(e) {
     if (!e.target.isContentEditable) {
-      document.querySelector('.pane-body.pane-chat-body').style.paddingBottom = '';
+      document.querySelector('.pane-chat-msgs.pane-chat-body').style.paddingBottom = '';
       helpers.autocomplete.classList.add('wawss-hidden');
     }
   });
