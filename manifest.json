@@ -22,7 +22,8 @@
     }
   ],
   "web_accessible_resources": [
-    "config/*.json"
+    "config/*.json",
+    "assert/transparent.png"
   ],
   "offline_enabled": false
 }

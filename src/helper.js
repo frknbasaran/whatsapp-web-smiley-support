@@ -39,14 +39,10 @@
       helpers.range.setEnd(node, end);
       helpers.range.deleteContents();
       helpers.range.insertNode(smiley_img);
-      //helpers.range.insertNode(smiley);
-      helpers.range.insertHTML += " ";
       helpers.range.setStartAfter(smiley_img);
       helpers.range.setEndAfter(smiley_img);
       helpers.selection.removeAllRanges();
       helpers.selection.addRange(helpers.range);
-
-      var e = new KeyboardEvent('keydown',{'keyCode':32,'which':32})
     },
 
     filterIcons: function(smileyStart) {
@@ -149,7 +145,7 @@
         img.alt= alt;
         img.draggable = false;
         img.className = "emoji " + emoji_class;
-        img.src ="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+        img.src = chrome.extension.getURL("assert/transparent.png");
         return img;
     },
 
