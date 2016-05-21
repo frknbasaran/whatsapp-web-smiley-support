@@ -66,7 +66,7 @@
           isFirst = true;
       for (var smiley in icons) {
         smileyList += '<li' + (isFirst ? ' class="wawss-autocomplete-selected"' : '') + '  data-class="'+ icons[smiley].class +'">';
-        smileyList += '<span style="margin-right: 5px">' + icons[smiley].alt + '</span> ';
+        smileyList += '<span style="margin-right: 5px" data-alt='+ icons[smiley].alt +' class="emoji '+ icons[smiley].class +'" ></span> ';
         if (smileyStart) {
           smileyList += '<strong>' + smileyStart + '</strong>' + smiley.substr(smileyStart.length);
         } else {
@@ -134,7 +134,7 @@
         var enteredText = selected.querySelector('strong').innerText,
             end = helpers.selection.anchorOffset,
             start = end - enteredText.length;
-        var img = this.formatEmojiImage(selected.firstChild.innerHTML, selected.getAttribute('data-class'));
+        var img = this.formatEmojiImage(selected.firstChild.getAttribute('data-alt'), selected.getAttribute('data-class'));
         helpers.replaceSmiley(helpers.selection.anchorNode, img, start, end);
       }
       document.querySelector('.pane-chat-msgs.pane-chat-body').style.paddingBottom = '';
