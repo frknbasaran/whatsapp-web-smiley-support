@@ -202,7 +202,8 @@
         var smileyStart = messagePart.substr(smileyOffset) + message.substr(helpers.selection.anchorOffset - 1, 1);
         icons = helpers.filterIcons(smileyStart);
         if (icons.hasOwnProperty(smileyStart)) {
-          helpers.replaceSmiley(helpers.selection.anchorNode, config.icons[smileyStart]['alt'], smileyOffset, smileyOffset + smileyStart.length);
+          var img = helpers.formatEmojiImage(config.icons[smileyStart]['alt'], config.icons[smileyStart].class);
+          helpers.replaceSmiley(helpers.selection.anchorNode, img, smileyOffset, smileyOffset + smileyStart.length);
         } else {
           var listItems = helpers.buildSmileyList(icons, smileyStart);
           if (listItems.length > 0) {
