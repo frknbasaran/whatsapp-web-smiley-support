@@ -6,6 +6,7 @@
   bottom: 0;
   width: 100%;
   min-width: 600px;
+  pointer-events: none;
 }
 
 .wawss-autocomplete-list {
