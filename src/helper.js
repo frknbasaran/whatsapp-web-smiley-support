@@ -225,7 +225,7 @@
   });
 
   document.addEventListener('click', function(e) {
-    if (!e.target.isContentEditable) {
+    if (!e.target.isContentEditable && document.querySelector('.pane-chat-msgs.pane-chat-body')) {
       document.querySelector('.pane-chat-msgs.pane-chat-body').style.paddingBottom = '';
       helpers.autocomplete.classList.add('wawss-hidden');
     }
