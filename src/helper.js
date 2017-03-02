@@ -66,7 +66,7 @@
           isFirst = true;
       for (var smiley in icons) {
         smileyList += '<li' + (isFirst ? ' class="wawss-autocomplete-selected"' : '') + '  data-class="'+ icons[smiley].class +'">';
-        smileyList += '<span style="margin-right: 5px" data-alt='+ icons[smiley].alt +' class="emoji '+ icons[smiley].class +'" ></span> ';
+        smileyList += '<span style="margin-right: 5px" data-alt='+ icons[smiley].alt +' class="emoji '+ icons[smiley].class +'" >' + icons[smiley].alt + '</span> ';
         if (smileyStart) {
           smileyList += '<strong>' + smileyStart + '</strong>' + smiley.substr(smileyStart.length);
         } else {
